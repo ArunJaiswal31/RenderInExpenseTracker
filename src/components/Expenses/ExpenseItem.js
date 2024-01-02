@@ -7,7 +7,7 @@ const ExpenseItem = (props) => {
   //const [newTitle, setNewTitle] = useState("");
 
   const [title, setTitle] = useState(props.title);
-  
+  const[amount,setAmount]=useState(props.amount);
   
 
   const clickHandler = (e) => {
@@ -16,6 +16,13 @@ const ExpenseItem = (props) => {
   };
   const deleteHandler = () => {
     props.onDelete(props.id);
+  };
+  // const amountHandler = () => {
+  //   setAmount("100");
+  // };
+  const amountHandler=()=>{
+    
+    setAmount(100);
   };
  
 
@@ -29,14 +36,17 @@ const ExpenseItem = (props) => {
       <div className="expense-item__description">
         <h2>{title}</h2>
       </div>
-      <div className="expense-item__price">${props.amount}</div>
+      
+      <div className="expense-item__price">${amount}</div>
       <Location locationOfExpenditure={props.location} />
       <form onSubmit={clickHandler}>
         <input type="text"  name="newtitle" />
         <button type="submit">Change Title</button>
        
       </form>
+      <button onClick={amountHandler}>Change Amount</button>
       <button onClick={deleteHandler}>Delete Expense</button>
+
      
     </Card>
   );

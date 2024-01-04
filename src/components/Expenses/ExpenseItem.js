@@ -17,9 +17,7 @@ const ExpenseItem = (props) => {
   const deleteHandler = () => {
     props.onDelete(props.id);
   };
-  // const amountHandler = () => {
-  //   setAmount("100");
-  // };
+  
   const amountHandler=()=>{
     
     setAmount(100);

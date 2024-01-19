@@ -1,54 +1,43 @@
-import ExpenseItem from "./ExpenseItem";
-import "./Expenses.css";
+import React, { useState } from 'react';
+import ExpenseItem from './ExpenseItem';
 import Card from "../UI/Card";
-import React, { useState } from "react";
-import ExpenseFilter from "./ExpenseFilter";
+function Expenses(props) {
+  const uniqueYears = Array.from(new Set(props.item.map((expense) => expense.date.getFullYear())));
+  const [selectedYear, setSelectedYear] = useState(null);
 
-
- 
-
-
-// const Expenses = (props) => {
-//   const handleDelete = (id) => {
-//     props.onDelete(id);
-// };
-
-
-const Expenses=(props)=>{
-  const[filteredYear,setFilteredYear]=useState('2020');
-  const filterChangeHandler=selectedYear=>{
-    setFilteredYear(selectedYear)
-  
-}
-
-
-  const ExpenseItems = props.item.map((expense) => (
-    
-    <ExpenseItem
-      date={expense.date}
-      title={expense.title}
-      amount={expense.amount}
-      location={expense.location}
-      key={expense.id}
-     // onDelete={handleDelete}
-    />
-  ));
- 
-  
-  return (
-  <Card className="expenses">
-   <ExpenseFilter
-        selected={filteredYear}
-        onChangeFilter={filterChangeHandler}
-      />
-  {ExpenseItems}
-  </Card>
-  );
+  const yearChangeHandler = (event) => {
+    const selectedYear = parseInt(event.target.value, 10);
+    setSelectedYear(selectedYear);
+    props.onFilter(selectedYear);
   };
 
+  const filteredExpenses = selectedYear
+    ? props.item.filter((expense) => expense.date.getFullYear() === selectedYear)
+    : props.item;
 
-
+  return (
+    <Card>
+      <div>
+        <label>Select Year:</label>
+        <select value={selectedYear || ''} onChange={yearChangeHandler}>
+          <option value="">All Years</option>
+          {uniqueYears.map((year) => (
+            <option key={year} value={year}>
+              {year}
+            </option>
+          ))}
+        </select>
+      </div>
+      {filteredExpenses.map((expense) => (
+        <ExpenseItem
+          key={expense.id}
+          date={expense.date}
+          title={expense.title}
+          amount={expense.amount}
+        />
+      ))}
+    </Card>
+  );
+}
 
 export default Expenses;
-
-
